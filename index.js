@@ -2,6 +2,7 @@ const faker = require("faker");
 const MongoClient = require("mongodb").MongoClient;
 
 const KITTY_MAX_NUMBER= process.env.MAX_NUMBER || 1000
+const { DB_USERNAME, DB_PASSWORD } = process.env
 
 function randomIntFromInterval(min, max) { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -10,6 +11,10 @@ async function seedDB() {
     const uri = process.env.DB_URI;
     const client = new MongoClient(uri, {
         useNewUrlParser: true,
+        auth: {
+            user: DB_USERNAME,
+            password: DB_PASSWORD
+        }
     });
     try {
         await client.connect();
